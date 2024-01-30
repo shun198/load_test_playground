@@ -60,6 +60,19 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_PROFILE
+  locust-master:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - .application/locustfile.py:/mnt/locust/locustfile.py
+    command: -f /mnt/locust/locustfile.py --master -H http://master:8089
+  
+  locust-worker:
+    image: locustio/locust
+    volumes:
+      - .application/locustfile.py:/mnt/locust/locustfile.py
+    command: -f /mnt/locust/locustfile.py --worker --master-host master
 volumes:
   db_data:
   static:
