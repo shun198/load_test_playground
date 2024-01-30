@@ -65,13 +65,13 @@ services:
     ports:
       - "8089:8089"
     volumes:
-      - .application/locustfile.py:/mnt/locust/locustfile.py
+      - ./application:/mnt/locust
     command: -f /mnt/locust/locustfile.py --master -H http://master:8089
   
   locust-worker:
     image: locustio/locust
     volumes:
-      - .application/locustfile.py:/mnt/locust/locustfile.py
+      - ./application:/mnt/locust
     command: -f /mnt/locust/locustfile.py --worker --master-host master
 volumes:
   db_data:
