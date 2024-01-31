@@ -45,6 +45,17 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: containers/nginx/Dockerfile
+    volumes:
+      - ./static:/static
+    ports:
+      - 80:80
+    depends_on:
+      - app
   mail:
     container_name: mail
     image: schickling/mailcatcher
@@ -60,19 +71,29 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - AWS_PROFILE
-  locust-master:
+  master:
+    container_name: master
     image: locustio/locust
     ports:
       - "8089:8089"
+    links:
+      - web
     volumes:
       - ./application:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://master:8089
-  
-  locust-worker:
+    command: -f /mnt/locust/locustfile.py --master -H http://web
+  worker:
+    container_name: worker
     image: locustio/locust
+    links:
+      - web
+      - master
     volumes:
       - ./application:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --worker --master-host master
+    command: -f /mnt/locust/locustfile.py -H http://web --worker --master-host=master
 volumes:
   db_data:
   static:
+
+networks:
+  default:
+    name: testnet
