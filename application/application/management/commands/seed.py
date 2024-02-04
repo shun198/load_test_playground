@@ -1,6 +1,8 @@
 from django.contrib.auth.models import Group
 from django.core.management.base import BaseCommand
 
+from application.models.user import User
+
 
 class Command(BaseCommand):
     help = "Seeds the database with initial data"
@@ -23,8 +25,11 @@ class Command(BaseCommand):
         users = options["users"]
         if not users:
             users = 10
-        for i in range(1, users + 1):
-            print(f"{i}:作成開始")
+        for id in range(1, users + 1):
+            print(f"{id}:作成開始")
+            User.objects.update_or_create(
+                id=id,
+            )
 
     def _create_or_update_group(self):
         """システムユーザの権限グループを作成または更新するメソッド"""

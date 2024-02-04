@@ -3,6 +3,8 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import RegexValidator
 from django.db import models
 
+from application.managers import UserManager
+
 
 class User(AbstractUser):
     """システムユーザ"""
@@ -53,6 +55,8 @@ class User(AbstractUser):
 
     USERNAME_FIELD = "employee_number"
     REQUIRED_FIELDS = ["email", "username"]
+
+    objects = UserManager()
 
     class Meta:
         ordering = ["employee_number"]
