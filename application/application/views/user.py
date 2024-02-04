@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from application.emails import send_welcome_email
-from application.models.user import User
+from application.models import User
 from application.permissions import IsAdminUser, IsSuperUser
 from application.serializers.user import EmailSerializer, UserSerializer
 

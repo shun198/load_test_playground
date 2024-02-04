@@ -7,7 +7,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
-from application.models.user import User
+from application.models import User
 from application.serializers.user import LoginSerializer, UserSerializer
 from application.utils.get_client_ip import get_client_ip
 from application.utils.logs import LoggerName
