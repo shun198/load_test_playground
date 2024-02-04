@@ -1,6 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from application.emails import send_welcome_email
@@ -15,8 +15,6 @@ class UserViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "send_invite_user_mail":
             return EmailSerializer
-        elif self.action == "create_user":
-            return None
         else:
             return UserSerializer
 
@@ -40,19 +38,6 @@ class UserViewSet(ModelViewSet):
         send_welcome_email(email=email)
         return HttpResponse()
 
-    @action(detail=False, methods=["POST"])
-    def create_user(self, request):
-        """指定したメールアドレス宛へ招待メールを送る
-
-        Args:
-            request: リクエスト
-
-        Returns:
-            HttpResponse
-        """
-        User.objects.create_or_update_user(id=10)
-        return HttpResponse()
-
     # get_permissionsメソッドを使えば前述の表に従って権限を付与できる
     def get_permissions(self):
         if self.action in [
@@ -64,8 +49,6 @@ class UserViewSet(ModelViewSet):
             permission_classes = [IsAdminUser]
         elif self.action == "destroy":
             permission_classes = [IsSuperUser]
-        elif self.action == "create_user":
-            permission_classes = [AllowAny]
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]

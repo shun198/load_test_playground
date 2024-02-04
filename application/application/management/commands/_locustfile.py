@@ -1,4 +1,4 @@
-from locust import HttpUser, between, task
+from locust import HttpUser, between, run_single_user, task
 
 
 class TestLoad(HttpUser):
@@ -22,3 +22,8 @@ class TestLoad(HttpUser):
             headers={"Cache-Control": "no-cache"},
         )
         print(vars(response))
+
+
+# if launched directly, e.g. "python3 debugging.py", not "locust -f debugging.py"
+if __name__ == "__main__":
+    run_single_user(TestLoad)
