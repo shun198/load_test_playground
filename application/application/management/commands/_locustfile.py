@@ -26,11 +26,6 @@ class TestLoad(HttpUser):
                 "X-CSRFToken": self.csrftoken,
             }
 
-        self.client.get(
-            "/api/users/get_csrf_token",
-            headers={"Cache-Control": "no-cache"},
-        )
-
         employee_number = str(self.id).zfill(8)
         response = self.client.post(
             "/api/login",
@@ -41,9 +36,11 @@ class TestLoad(HttpUser):
             headers=self.headers,
             cookies={"csrftoken": self.csrftoken},
         )
-        print(response.json())
+        print(response.status_code)
         
         time.sleep(random.randrange(5, 25))
+        
+        
 
 
 # if launched directly, e.g. "python3 debugging.py", not "locust -f debugging.py"
