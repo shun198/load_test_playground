@@ -5,17 +5,15 @@ class Command(BaseCommand):
     help = "Seeds the database with initial data"
 
     def add_arguments(self, parser):
-        """
-        Entry point for subclassed commands to add custom arguments.
-        """
         parser.add_argument(
             "--users",
             type=int,
-            help="Specify the amount of users",
+            help="Specify the amount of users. If you don't specify the default amount of users will be 10",
         )
 
     def handle(self, *args, **options):
         users = options["users"]
-        if users:
+        if not users:
+            print("no users")
+            users = 10
             print(users)
-        print("no users")
