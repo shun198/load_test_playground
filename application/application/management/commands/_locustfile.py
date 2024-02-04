@@ -21,7 +21,6 @@ class TestLoad(HttpUser):
                 "/api/users/get_csrf_token",
                 headers={"Cache-Control": "no-cache"},
             )
-            print(vars(token_res))
             self.csrftoken = token_res.cookies.get("csrftoken")
             self.headers = {
                 "X-CSRFToken": self.csrftoken,
@@ -42,7 +41,7 @@ class TestLoad(HttpUser):
             headers=self.headers,
             cookies={"csrftoken": self.csrftoken},
         )
-        print(vars(response))
+        print(response.json())
         
         time.sleep(random.randrange(5, 25))
 

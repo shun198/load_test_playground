@@ -65,7 +65,7 @@ class UserViewSet(ModelViewSet):
         elif self.action == "destroy":
             permission_classes = [IsSuperUser]
         elif self.action == "get_csrf_token":
-            permission_classes == [AllowAny]
+            permission_classes = [AllowAny]
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
