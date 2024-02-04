@@ -6,4 +6,5 @@ class QuickstartUser(HttpUser):
 
     @task
     def health(self):
-        self.client.get("http://127.0.0.1:8000/api/health/")
+        response = self.client.get("/api/health")
+        print(response.json())

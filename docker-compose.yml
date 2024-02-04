@@ -6,9 +6,6 @@ services:
     build:
       context: .
       dockerfile: containers/postgres/Dockerfile
-    # M1チップでも動くように
-    platform: linux/x86_64
-    # ローカルの/data/dbをコンテナの/var/lib/postgresql/dataにマウンティング
     volumes:
       - db_data:/var/lib/postgresql/data
     # 環境変数
@@ -76,20 +73,15 @@ services:
     image: locustio/locust
     ports:
       - "8089:8089"
-    links:
-      - web
     volumes:
-      - ./application:/mnt/locust
-    command: -f /mnt/locust/locustfile.py --master -H http://web
+      - ./application/application/management/commands/_locustfile.py:/mnt/locust/_locustfile.py
+    command: -f /mnt/locust/_locustfile.py --master -H http://app:8000
   worker:
     container_name: worker
     image: locustio/locust
-    links:
-      - web
-      - master
     volumes:
-      - ./application:/mnt/locust
-    command: -f /mnt/locust/locustfile.py -H http://web --worker --master-host=master
+      - ./application/application/management/commands/_locustfile.py:/mnt/locust/_locustfile.py
+    command: -f /mnt/locust/_locustfile.py -H app:8000 --worker --master-host=master
 volumes:
   db_data:
   static:

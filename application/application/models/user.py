@@ -1,5 +1,3 @@
-import uuid
-
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.validators import RegexValidator
@@ -29,11 +27,9 @@ class User(AbstractUser):
     last_name = None
     date_joined = None
     groups = None
-    id = models.UUIDField(
+    id = models.AutoField(
         primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        db_comment="システムユーザID",
+        db_comment="ID",
     )
     employee_number = models.CharField(
         unique=True,

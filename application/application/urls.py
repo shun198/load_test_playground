@@ -7,7 +7,7 @@ from application.views.login import LoginViewSet
 from application.views.sms import SmsViewSet
 from application.views.user import UserViewSet
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"", LoginViewSet, basename="login")
 router.register(r"", SmsViewSet, basename="sms")
@@ -15,5 +15,5 @@ router.register(r"customer", CustomerViewSet, basename="customer")
 
 urlpatterns = [
     path(r"", include(router.urls)),
-    path(r"health/", health_check, name="health_check"),
+    path(r"health", health_check, name="health_check"),
 ]

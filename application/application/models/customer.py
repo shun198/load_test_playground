@@ -9,11 +9,9 @@ from application.utils.customer_storage import CustomerStorage
 class Customer(models.Model):
     """お客様"""
 
-    id = models.UUIDField(
+    id = models.AutoField(
         primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        db_comment="お客様ID",
+        db_comment="ID",
     )
     kana = models.CharField(
         max_length=255,
@@ -47,11 +45,9 @@ class Customer(models.Model):
 class CustomerPhoto(models.Model):
     """お客様の画像"""
 
-    id = models.UUIDField(
+    id = models.AutoField(
         primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        db_comment="お客様の写真ID",
+        db_comment="ID",
     )
     customer = models.ForeignKey(
         "Customer",
@@ -72,11 +68,9 @@ class CustomerPhoto(models.Model):
 class Address(models.Model):
     """住所"""
 
-    id = models.UUIDField(
+    id = models.AutoField(
         primary_key=True,
-        default=uuid.uuid4,
-        editable=False,
-        db_comment="住所ID",
+        db_comment="ID",
     )
     prefecture = models.CharField(
         max_length=255,
