@@ -25,11 +25,12 @@ class Command(BaseCommand):
         users = options["users"]
         if not users:
             users = 10
+        print(f"Creating {users} users")
         for id in range(1, users + 1):
-            print(f"{id}:作成開始")
-            User.objects.update_or_create(
+            User.objects.create_or_update_user(
                 id=id,
             )
+        print(f"Successfully created {users} users")
 
     def _create_or_update_group(self):
         """システムユーザの権限グループを作成または更新するメソッド"""
