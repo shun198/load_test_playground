@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
+from django.middleware.csrf import get_token
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
 from application.emails import send_welcome_email
@@ -15,8 +16,22 @@ class UserViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == "send_invite_user_mail":
             return EmailSerializer
+        if self.action == "get_csrf_token":
+            return None
         else:
             return UserSerializer
+
+    @action(detail=False, methods=["get"])
+    def get_csrf_token(self, request):
+        """CSRF Tokenを発行する
+
+        Args:
+            request (HttpRequest): HttpRequestオブジェクト
+
+        Returns:
+            JsonResponse
+        """
+        return JsonResponse({"token": str(get_token(request))})
 
     @action(detail=False, methods=["POST"])
     def send_invite_user_mail(self, request):
@@ -49,6 +64,8 @@ class UserViewSet(ModelViewSet):
             permission_classes = [IsAdminUser]
         elif self.action == "destroy":
             permission_classes = [IsSuperUser]
+        elif self.action == "get_csrf_token":
+            permission_classes == [AllowAny]
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
