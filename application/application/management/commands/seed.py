@@ -8,7 +8,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "--users",
             type=int,
-            help="Specify the amount of users. If you don't specify the default amount of users will be 10",
+            help="Specify the amount of users. The default amount of users will be 10",
         )
 
     def handle(self, *args, **options):
