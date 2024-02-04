@@ -21,19 +21,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """システムユーザを作成するコマンド"""
-        self._create_or_update_group()
-        users = options["users"]
-        if not users:
-            users = 10
-        print(f"Creating {users} users")
-        for id in range(1, users + 1):
-            User.objects.create_or_update_user(
-                id=id,
-            )
-        print(f"Successfully created {users} users")
-
-    def _create_or_update_group(self):
-        """システムユーザの権限グループを作成または更新するメソッド"""
         Group.objects.update_or_create(
             id=1,
             name="管理者",
@@ -42,3 +29,22 @@ class Command(BaseCommand):
             id=2,
             name="一般",
         )
+        users = options["users"]
+        if not users:
+            users = 10
+        print(f"Creating {users} users")
+        for id in range(1, users + 1):
+            try:
+                user = User.objects.get(id=id)
+            except User.DoesNotExist:
+                user = User.objects.create_user(
+                    id=id,
+                    username=f"テストユーザ{id}",
+                    employee_number=str(id).zfill(8),
+                    email=f"example{id}.com",
+                    groups=Group.objects.get(name="管理者"),
+                )
+            user.set_password("test")
+            user.save()
+            print(f"Created {user}")
+        print(f"Successfully created {users} users")
