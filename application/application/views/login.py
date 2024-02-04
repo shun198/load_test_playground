@@ -54,7 +54,7 @@ class LoginViewSet(ViewSet):
             return JsonResponse(
                 {
                     "username": user.username,
-                    "role": user.group.name,
+                    "role": user.groups.name,
                 }
             )
 
