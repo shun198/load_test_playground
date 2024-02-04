@@ -51,7 +51,12 @@ class LoginViewSet(ViewSet):
             self.application_logger.info(
                 f"ログイン成功: {user}, {serializer.data.get('employee_number')}, IP: {get_client_ip(request)}"
             )
-            return JsonResponse(data={"role": user.Role(user.role).name})
+            return JsonResponse(
+                {
+                    "username": user.username,
+                    "role": user.group.name,
+                }
+            )
 
     @action(methods=["POST"], detail=False)
     def logout(self, request):

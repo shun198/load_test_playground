@@ -1,92 +1,73 @@
-"""
-権限用のモジュール
-"""
-from rest_framework.permissions import BasePermission
-
-from .models import User
+from rest_framework import permissions
 
 
-class IsPartTimeUser(BasePermission):
+class IsSuperUser(permissions.BasePermission):
+    """ "システム開発者か判別する為のクラス"""
+
     def has_permission(self, request, view):
-        """アルバイトユーザかどうか判定
+        """権限の有無を確認する
 
         Args:
-            request: リクエスト
-            view: ビュー
+            request (Request):
+            view (Callable):
 
         Returns:
-            アルバイトユーザならTrue
-            それ以外はFalse
+            bool
         """
-        if request.user.is_superuser:
-            return True
 
-        if request.user.is_authenticated:
-            # アルバイトユーザーにできて一般ユーザーと管理ユーザーにできないことはないので管理ユーザーもTrue
-            if request.user.role in [
-                User.Role.PART_TIME,
-                User.Role.GENERAL,
-                User.Role.MANAGEMENT,
-            ]:
-                return True
-        return False
-
-
-class IsGeneralUser(BasePermission):
-    def has_permission(self, request, view):
-        """一般ユーザかどうか判定
-
-        Args:
-            request: リクエスト
-            view: ビュー
-        Returns:
-            一般ユーザならTrue
-            それ以外はFalse
-        """
-        if request.user.is_superuser:
-            return True
-
-        if request.user.is_authenticated:
-            # 一般ユーザー、管理ユーザーともにTrueになるよう設定
-            if request.user.role in [
-                User.Role.GENERAL,
-                User.Role.MANAGEMENT,
-            ]:
-                return True
-        return False
-
-
-class IsManagementUser(BasePermission):
-    def has_permission(self, request, view):
-        """管理ユーザかどうか判定
-
-        Args:
-            request: リクエスト
-            view: ビュー
-
-        Returns:
-            管理ユーザならTrue
-            それ以外はFalse
-        """
-        if request.user.is_superuser:
-            return True
-
-        if request.user.is_authenticated:
-            if request.user.role == User.Role.MANAGEMENT:
-                return True
-        return False
-
-
-class IsSuperUser(BasePermission):
-    def has_permission(self, request, view):
-        """スーパーユーザかどうか判定
-
-        Args:
-            request: リクエスト
-            view: ビュー
-
-        Returns:
-            スーパーユーザならTrue
-            それ以外はFalse
-        """
         return request.user.is_superuser
+
+    def has_object_permission(self, request, view, obj):
+        """対象のオブジェクトに対して権限の有無を確認する
+
+        Args:
+            request (Request):
+            view (Callable):
+            obj (Model):
+
+        Returns:
+            bool
+        """
+
+        return request.user.is_superuser
+
+
+class IsAdminUser(permissions.BasePermission):
+    """ "管理者か判別する為のクラス"""
+
+    def has_permission(self, request, view):
+        """権限の有無を確認する
+
+        Args:
+            request (Request):
+            view (Callable):
+
+        Returns:
+            bool
+        """
+
+        if request.user.is_superuser:
+            return True
+        elif request.user.is_authenticated:
+            return request.user.groups.name == "管理者"
+        else:
+            return False
+
+    def has_object_permission(self, request, view, obj):
+        """対象のオブジェクトに対して権限の有無を確認する
+
+        Args:
+            request (Request):
+            view (Callable):
+            obj (Model):
+
+        Returns:
+            bool
+        """
+
+        if request.user.is_superuser:
+            return True
+        elif request.user.is_authenticated:
+            return request.user.groups.name == "管理者"
+        else:
+            return False

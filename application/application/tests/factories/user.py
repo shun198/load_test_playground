@@ -14,11 +14,6 @@ class UserFactory(DjangoModelFactory):
     employee_number = "11111111"
     password = PostGenerationMethodCall("set_password", "test")
     email = Faker("email")
-    role = Faker(
-        "random_int",
-        min=0,
-        max=2,
-    )
     created_at = Faker(
         "date_between_dates",
         date_start=(datetime.now() - timedelta(days=20)).date(),
