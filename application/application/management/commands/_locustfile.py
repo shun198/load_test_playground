@@ -15,7 +15,10 @@ class TestLoad(HttpUser):
         employee_number = str(self.id).zfill(8)
         response = self.client.post(
             "/api/login",
-            json={"employee_number": employee_number, "password": "test"},
+            json={
+                "employee_number": employee_number,
+                "password": "test",
+            },
             headers={"Cache-Control": "no-cache"},
         )
         print(vars(response))
