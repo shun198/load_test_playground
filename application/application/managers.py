@@ -32,15 +32,15 @@ class UserManager(BaseUserManager):
             groups = 1
         try:
             user = self.model.get(id=id)
-            user.username = f"テストユーザ{id}"
-            user.employee_number = id
-            user.email = f"example{id}.com"
+            user.username = getattr(user,"username",f"テストユーザ{id}")
+            user.employee_number = getattr(user,"employee_number",f"テストユーザ{id}")
+            user.email = getattr(user,"email",f"example{id}.com")
             user.groups = groups
         except:
             user = self.model(
-                username=username,
-                employee_number=employee_number,
-                email=email,
+                username=getattr(user,"username",f"テストユーザ{id}"),
+                employee_number=getattr(user,"employee_number",f"テストユーザ{id}"),
+                email=getattr(user,"email",f"example{id}.com"),
                 groups=groups,
                 **extra_fields,
             )
