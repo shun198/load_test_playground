@@ -74,14 +74,14 @@ services:
     ports:
       - "8089:8089"
     volumes:
-      - ./application/application/management/commands/_locustfile.py:/mnt/locust/_locustfile.py
-    command: -f /mnt/locust/_locustfile.py --master -H http://app:8000
+      - ./application/application/locustfile.py:/mnt/locust/locustfile.py
+    command: -f /mnt/locust/locustfile.py --master -H http://app:8000
   worker:
     container_name: worker
     image: locustio/locust
     volumes:
-      - ./application/application/management/commands/_locustfile.py:/mnt/locust/_locustfile.py
-    command: -f /mnt/locust/_locustfile.py -H app:8000 --worker --master-host=master
+      - ./application/application/locustfile.py:/mnt/locust/locustfile.py
+    command: -f /mnt/locust/locustfile.py -H app:8000 --worker --master-host=master
 volumes:
   db_data:
   static:
