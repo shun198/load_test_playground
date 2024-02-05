@@ -90,12 +90,6 @@ class Customer(models.Model):
         blank=True,
         db_comment="電話番号",
     )
-    address = models.ForeignKey(
-        "Address",
-        on_delete=models.CASCADE,
-        related_name="address",
-        db_comment="住所ID",
-    )
 
     class Meta:
         db_table = "Customer"
@@ -123,39 +117,3 @@ class CustomerPhoto(models.Model):
     class Meta:
         db_table = "CustomerPhoto"
         db_table_comment = "お客様の画像"
-
-
-class Address(models.Model):
-    """住所"""
-
-    id = models.AutoField(
-        primary_key=True,
-        db_comment="ID",
-    )
-    prefecture = models.CharField(
-        max_length=255,
-        db_comment="都道府県",
-    )
-    municipalities = models.CharField(
-        max_length=255,
-        db_comment="市区町村",
-    )
-    house_no = models.CharField(
-        max_length=255,
-        db_comment="丁・番地",
-    )
-    other = models.CharField(
-        max_length=255,
-        blank=True,
-        db_comment="その他(マンション名など)",
-    )
-    post_no = models.CharField(
-        max_length=7,
-        validators=[RegexValidator(r"^[0-9]{7}$", "7桁の数字を入力してください。")],
-        null=True,
-        db_comment="郵便番号",
-    )
-
-    class Meta:
-        db_table = "Address"
-        db_table_comment = "住所"

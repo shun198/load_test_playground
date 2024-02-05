@@ -1,6 +1,7 @@
 import csv
 import io
 
+from django.http import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.decorators import action
@@ -35,3 +36,17 @@ class CustomerViewSet(ModelViewSet):
         io_string = io.StringIO(decoded_file)
         # header(1行目)を無視
         header = next(csv.reader(io_string))
+        for row in csv.reader(io_string, delimiter=","):
+            csv_data = {
+                "kana": row[0],
+                "name": row[1],
+                "birthday": row[2],
+                "phone_no": row[3],
+            }
+            serializer = CustomerSerializer(data=csv_data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+        return JsonResponse(
+            {"msg": "CSVファイルのアップロードに成功しました"},
+            status=status.HTTP_201_CREATED,
+        )
