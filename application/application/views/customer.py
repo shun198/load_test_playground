@@ -17,7 +17,7 @@ from application.serializers.customer import (
 
 
 class CustomerViewSet(ModelViewSet):
-    queryset = Customer.objects.select_related("address").all()
+    queryset = Customer.objects.all()
     permission_classes = [IsAuthenticated]
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CustomerFilter
