@@ -37,10 +37,8 @@ class TestLoad(HttpUser):
             cookies={"csrftoken": self.csrftoken},
         )
         print(response.status_code)
-        
+
         time.sleep(random.randrange(5, 25))
-        
-        
 
 
 # if launched directly, e.g. "python3 debugging.py", not "locust -f debugging.py"

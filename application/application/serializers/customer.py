@@ -25,3 +25,8 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = "__all__"
+
+
+# ファイルアップロード用Serializer
+class CreateCustomerSerializer(serializers.Serializer):
+    file = serializers.FileField()
