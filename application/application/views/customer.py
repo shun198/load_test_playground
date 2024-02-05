@@ -38,10 +38,10 @@ class CustomerViewSet(ModelViewSet):
         header = next(csv.reader(io_string))
         for row in csv.reader(io_string, delimiter=","):
             csv_data = {
-                "kana": row[0],
-                "name": row[1],
+                "name": row[0],
+                "kana": row[1],
                 "birthday": row[2],
-                "phone_no": row[3],
+                "phone_no": "0" + row[3],
             }
             serializer = CustomerSerializer(data=csv_data)
             serializer.is_valid(raise_exception=True)

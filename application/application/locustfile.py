@@ -27,7 +27,7 @@ class TestLoad(HttpUser):
             }
 
         employee_number = str(self.id).zfill(8)
-        response = self.client.post(
+        self.client.post(
             "/api/login",
             json={
                 "employee_number": employee_number,
@@ -36,10 +36,17 @@ class TestLoad(HttpUser):
             headers=self.headers,
             cookies={"csrftoken": self.csrftoken},
         )
-        print(response.status_code)
 
         time.sleep(random.randrange(5, 25))
-
+        file_path=""
+        files = {"file":file_path}
+        response = self.client.post(
+            "/api/customer/import_customer_csv",
+            files=files,
+            headers=self.headers,
+            cookies={"csrftoken": self.csrftoken},
+        )
+        print(vars(response))
 
 # if launched directly, e.g. "python3 debugging.py", not "locust -f debugging.py"
 if __name__ == "__main__":
