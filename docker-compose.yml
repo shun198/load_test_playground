@@ -81,6 +81,7 @@ services:
     image: locustio/locust
     volumes:
       - ./application/application/locustfile.py:/mnt/locust/locustfile.py
+      - ./files/csv_test.csv:/mnt/locust/csv_test.csv
     command: -f /mnt/locust/locustfile.py -H app:8000 --worker --master-host=master
 volumes:
   db_data:

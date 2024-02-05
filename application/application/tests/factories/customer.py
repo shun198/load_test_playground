@@ -18,4 +18,3 @@ class CustomerFactory(factory.django.DjangoModelFactory):
         date_end=(datetime.now().date() - timedelta(days=365 * 20)),
     )
     phone_no = Sequence(lambda n: f"080" + "{0:08}".format(n + 100))
-

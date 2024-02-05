@@ -26,7 +26,7 @@ class CustomerViewSet(ModelViewSet):
         if self.action == "import_customer_csv":
             return CreateCustomerSerializer
         else:
-            CustomerSerializer
+            return CustomerSerializer
 
     @action(detail=False, methods=["POST"])
     def import_customer_csv(self, request, *args, **kwargs):

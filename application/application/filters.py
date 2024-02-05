@@ -26,4 +26,3 @@ class CustomerFilter(django_filters.FilterSet):
         return queryset.filter(
             Q(name__contains=value) | Q(kana__contains=value)
         )
-

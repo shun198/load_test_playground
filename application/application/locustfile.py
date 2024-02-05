@@ -38,15 +38,22 @@ class TestLoad(HttpUser):
         )
 
         time.sleep(random.randrange(5, 25))
-        file_path=""
-        files = {"file":file_path}
+
         response = self.client.post(
-            "/api/customer/import_customer_csv",
-            files=files,
+            "/api/customer",
+            json={
+                "kana": "ヤマダタロウ",
+                "name": "山田太郎",
+                "birthday": "1995-01-01",
+                "phone_no": "08011112222",
+            },
             headers=self.headers,
             cookies={"csrftoken": self.csrftoken},
         )
-        print(vars(response))
+        print(response)
+
+        time.sleep(random.randrange(5, 25))
+
 
 # if launched directly, e.g. "python3 debugging.py", not "locust -f debugging.py"
 if __name__ == "__main__":
