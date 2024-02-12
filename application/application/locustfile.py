@@ -16,28 +16,28 @@ class TestLoad(HttpUser):
 
     @task
     def test_scenario(self):
-        if not self.csrftoken:
-            token_res = self.client.get(
-                "/api/users/get_csrf_token",
-                headers={"Cache-Control": "no-cache"},
-            )
-            self.csrftoken = token_res.cookies.get("csrftoken")
-            self.headers = {
-                "X-CSRFToken": self.csrftoken,
-            }
+        # if not self.csrftoken:
+        #     token_res = self.client.get(
+        #         "/api/users/get_csrf_token",
+        #         headers={"Cache-Control": "no-cache"},
+        #     )
+        #     self.csrftoken = token_res.cookies.get("csrftoken")
+        #     self.headers = {
+        #         "X-CSRFToken": self.csrftoken,
+        #     }
 
-        employee_number = str(self.id).zfill(8)
-        self.client.post(
-            "/api/login",
-            json={
-                "employee_number": employee_number,
-                "password": "test",
-            },
-            headers=self.headers,
-            cookies={"csrftoken": self.csrftoken},
-        )
+        # employee_number = str(self.id).zfill(8)
+        # self.client.post(
+        #     "/api/login",
+        #     json={
+        #         "employee_number": employee_number,
+        #         "password": "test",
+        #     },
+        #     headers=self.headers,
+        #     cookies={"csrftoken": self.csrftoken},
+        # )
 
-        time.sleep(random.randrange(5, 25))
+        # time.sleep(random.randrange(5, 25))
 
         response = self.client.post(
             "/api/customer",
@@ -47,8 +47,8 @@ class TestLoad(HttpUser):
                 "birthday": "1995-01-01",
                 "phone_no": "08011112222",
             },
-            headers=self.headers,
-            cookies={"csrftoken": self.csrftoken},
+            headers={"Cache-Control": "no-cache"},
+            # cookies={"csrftoken": self.csrftoken},
         )
         print(response)
 
