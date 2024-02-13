@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
@@ -13,6 +15,7 @@ class LoginViewSet(ViewSet):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
 
+    @method_decorator(csrf_protect)
     @action(detail=False, methods=["POST"])
     def login(self, request):
         """ログインAPI
