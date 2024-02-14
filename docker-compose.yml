@@ -34,7 +34,7 @@ services:
       - "8000:8000"
       # デバッグ用ポート
       - "8080:8080"
-    command: sh -c "/usr/local/bin/entrypoint.sh"
+    command: "poetry run gunicorn project.wsgi:application --bind 0.0.0.0:8000"
     stdin_open: true
     tty: true
     env_file:
@@ -77,7 +77,7 @@ services:
       - ./application/application/locustfile.py:/mnt/locust/locustfile.py
     command: -f /mnt/locust/locustfile.py --master -H http://app:8000
   worker:
-    container_name: worker
+    # container_name: worker
     image: locustio/locust
     volumes:
       - ./application/application/locustfile.py:/mnt/locust/locustfile.py

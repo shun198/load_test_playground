@@ -14,6 +14,7 @@ class DjangoSettings(BaseSettings):
     POSTGRES_HOST: str = "db"
     POSTGRES_PORT: int = 5432
     TRUSTED_ORIGINS: str = "http://localhost"
+    CSRF_COOKIE_DOMAIN: str = ""
 
 
 class AwsSettings(BaseSettings):

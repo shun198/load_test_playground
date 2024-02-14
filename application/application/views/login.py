@@ -15,8 +15,8 @@ class LoginViewSet(ViewSet):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
 
-    @method_decorator(csrf_protect)
     @action(detail=False, methods=["POST"])
+    @method_decorator(csrf_protect)
     def login(self, request):
         """ログインAPI
 

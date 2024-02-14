@@ -50,7 +50,7 @@ class TestLoad(HttpUser):
             headers={"Cache-Control": "no-cache"},
             # cookies={"csrftoken": self.csrftoken},
         )
-        print(response)
+        print(vars(response))
 
         time.sleep(random.randrange(5, 25))
 
