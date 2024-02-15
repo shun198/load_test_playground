@@ -33,9 +33,7 @@ class LoginViewSet(ViewSet):
         user = authenticate(employee_number=employee_number, password=password)
         if not user:
             return JsonResponse(
-                data={
-                    "msg": "either employee number or password is incorrect"
-                },
+                data={"msg": "社員番号、またはパスワードが間違っています。"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         else:
